@@ -8,7 +8,7 @@
           "machines": {
             ".read": true,
             "$machine": {
-              ".write": "auth != null && (auth.token.admin === true || auth.token.writer === true) && $machine.matches(/^(A[1-6]|B[1-8]|C[1-8]|1[0-5])$/) && newData.exists()",
+              ".write": "auth != null && ((auth != null && auth.token.email_verified === true && auth.token.email === 'leandrodevxx@gmail.com' || (auth != null && auth.token.email_verified === true && root.child('wmoldes/v2/access/roles').child(auth.uid).child('role').val() === 'writer'))) && $machine.matches(/^(A[1-6]|B[1-8]|C[1-8]|1[0-5])$/) && newData.exists()",
               ".validate": "newData.hasChildren(['prefix', 'updatedBy', 'updatedAt']) && newData.child('updatedBy').val() === auth.uid && newData.child('prefix').isString() && newData.child('prefix').val().length <= 48 && newData.child('updatedAt').isString() && newData.child('updatedAt').val().length <= 40",
               "machineNote": {
                 ".validate": "newData.isString() && newData.val().length <= 2000"
@@ -27,7 +27,7 @@
             "$machine": {
               "$day": {
                 "$id": {
-                  ".write": "auth != null && (auth.token.admin === true || auth.token.writer === true) && $machine.matches(/^(A[1-6]|B[1-8]|C[1-8]|1[0-5])$/) && $day.matches(/^\\d{4}-\\d{2}-\\d{2}$/) && (auth.token.admin === true || !data.exists() || data.child('createdBy').val() === auth.uid) && (!newData.exists() || (newData.child('createdBy').val() === (data.exists() ? data.child('createdBy').val() : auth.uid)))",
+                  ".write": "auth != null && ((auth != null && auth.token.email_verified === true && auth.token.email === 'leandrodevxx@gmail.com' || (auth != null && auth.token.email_verified === true && root.child('wmoldes/v2/access/roles').child(auth.uid).child('role').val() === 'writer'))) && $machine.matches(/^(A[1-6]|B[1-8]|C[1-8]|1[0-5])$/) && $day.matches(/^\\d{4}-\\d{2}-\\d{2}$/) && ((auth != null && auth.token.email_verified === true && auth.token.email === 'leandrodevxx@gmail.com') || !data.exists() || data.child('createdBy').val() === auth.uid) && (!newData.exists() || (newData.child('createdBy').val() === (data.exists() ? data.child('createdBy').val() : auth.uid)))",
                   ".validate": "newData.hasChildren(['machine','day','type','numberLot','prefix','inspectedAt','inspector','values','specsSnapshot','createdBy','createdAt','updatedBy','updatedAt']) && newData.child('machine').val() === $machine && newData.child('day').val() === $day && (newData.child('type').val() === 'Molde' || newData.child('type').val() === 'Blank' || newData.child('type').val() === 'Neck') && newData.child('numberLot').isString() && newData.child('numberLot').val().length <= 100 && newData.child('prefix').isString() && newData.child('prefix').val().length <= 48 && newData.child('inspector').isString() && newData.child('inspector').val().length <= 100 && newData.child('inspectedAt').isString() && newData.child('inspectedAt').val().beginsWith($day) && newData.child('createdAt').isString() && newData.child('updatedAt').isString() && newData.child('updatedBy').val() === auth.uid && (!data.exists() || (newData.child('createdAt').val() === data.child('createdAt').val() && newData.child('createdBy').val() === data.child('createdBy').val()))",
                   "equipmentNote": {
                     ".validate": "newData.isString() && newData.val().length <= 2000"
@@ -53,7 +53,7 @@
           "dimensionCatalog": {
             ".read": true,
             "$id": {
-              ".write": "auth != null && (auth.token.admin === true || auth.token.writer === true) && $id.matches(/^[A-Za-z0-9_-]{3,80}$/) && newData.exists()",
+              ".write": "auth != null && ((auth != null && auth.token.email_verified === true && auth.token.email === 'leandrodevxx@gmail.com' || (auth != null && auth.token.email_verified === true && root.child('wmoldes/v2/access/roles').child(auth.uid).child('role').val() === 'writer'))) && $id.matches(/^[A-Za-z0-9_-]{3,80}$/) && newData.exists()",
               ".validate": "newData.hasChildren(['name','createdBy','createdAt']) && newData.child('name').isString() && newData.child('name').val().length >= 3 && newData.child('name').val().length <= 100 && newData.child('createdBy').val() === auth.uid && newData.child('createdAt').isString()"
             }
           },
@@ -61,7 +61,7 @@
             ".read": true,
             "$machine": {
               "$prefix": {
-                ".write": "auth != null && (auth.token.admin === true || auth.token.writer === true) && $machine.matches(/^(A[1-6]|B[1-8]|C[1-8]|1[0-5])$/) && $prefix.matches(/^[A-Za-z0-9_-]{1,300}$/)",
+                ".write": "auth != null && ((auth != null && auth.token.email_verified === true && auth.token.email === 'leandrodevxx@gmail.com' || (auth != null && auth.token.email_verified === true && root.child('wmoldes/v2/access/roles').child(auth.uid).child('role').val() === 'writer'))) && $machine.matches(/^(A[1-6]|B[1-8]|C[1-8]|1[0-5])$/) && $prefix.matches(/^[A-Za-z0-9_-]{1,300}$/)",
                 ".validate": "newData.hasChildren(['prefix','specs','updatedBy','updatedAt']) && newData.child('prefix').isString() && newData.child('prefix').val().length <= 48 && newData.child('updatedBy').val() === auth.uid && newData.child('updatedAt').isString()",
                 "specs": {
                   "$sid": {
@@ -74,7 +74,7 @@
           "drawings": {
             ".read": true,
             "$prefix": {
-              ".write": "auth != null && (auth.token.admin === true || auth.token.writer === true) && $prefix.matches(/^[A-Za-z0-9_-]{1,300}$/)",
+              ".write": "auth != null && ((auth != null && auth.token.email_verified === true && auth.token.email === 'leandrodevxx@gmail.com' || (auth != null && auth.token.email_verified === true && root.child('wmoldes/v2/access/roles').child(auth.uid).child('role').val() === 'writer'))) && $prefix.matches(/^[A-Za-z0-9_-]{1,300}$/)",
               ".validate": "newData.hasChildren(['prefix','source','kind','fileName','updatedBy','updatedAt']) && newData.child('prefix').isString() && newData.child('prefix').val().length <= 48 && (newData.child('source').val() === 'url' || newData.child('source').val() === 'path' || newData.child('source').val() === 'storage') && (newData.child('kind').val() === 'pdf' || newData.child('kind').val() === 'image') && newData.child('fileName').isString() && newData.child('fileName').val().length <= 160 && newData.child('updatedBy').val() === auth.uid && newData.child('updatedAt').isString() && ((newData.child('source').val() === 'path' && newData.child('path').isString()) || (newData.child('source').val() !== 'path' && newData.child('url').isString()))",
               "url": {
                 ".validate": "newData.isString() && newData.val().length <= 2048 && (newData.val().beginsWith('https://') || newData.val().beginsWith('http://'))"
@@ -91,7 +91,7 @@
             ".read": true,
             "$machine": {
               "$entry": {
-                ".write": "auth != null && (auth.token.admin === true || auth.token.writer === true) && $machine.matches(/^(A[1-6]|B[1-8]|C[1-8]|1[0-5])$/) && !data.exists() && newData.exists()",
+                ".write": "auth != null && ((auth != null && auth.token.email_verified === true && auth.token.email === 'leandrodevxx@gmail.com' || (auth != null && auth.token.email_verified === true && root.child('wmoldes/v2/access/roles').child(auth.uid).child('role').val() === 'writer'))) && $machine.matches(/^(A[1-6]|B[1-8]|C[1-8]|1[0-5])$/) && !data.exists() && newData.exists()",
                 ".validate": "newData.hasChildren(['prefix','previousPrefix','effectiveAt','changedBy']) && newData.child('prefix').isString() && newData.child('prefix').val().length <= 48 && newData.child('previousPrefix').isString() && newData.child('previousPrefix').val().length <= 48 && newData.child('effectiveAt').isString() && newData.child('changedBy').val() === auth.uid"
               }
             }
@@ -100,8 +100,28 @@
         "private": {
           "messages": {
             "$uid": {
-              ".read": "auth != null && (auth.uid === $uid || auth.token.admin === true)",
-              ".write": false
+              ".read": "auth != null && (auth.uid === $uid || (auth != null && auth.token.email_verified === true && auth.token.email === 'leandrodevxx@gmail.com'))",
+              ".write": "auth != null && auth.token.email_verified === true && auth.token.email === 'leandrodevxx@gmail.com'",
+              "$msg": {
+                ".validate": "newData.hasChildren(['subject','body','senderEmail','sentAt']) && newData.child('subject').isString() && newData.child('subject').val().length <= 120 && newData.child('body').isString() && newData.child('body').val().length <= 3000 && newData.child('senderEmail').val() === auth.token.email && newData.child('sentAt').isString()"
+              }
+            }
+          }
+        },
+        "access": {
+          "roles": {
+            ".read": "auth != null && auth.token.email_verified === true && auth.token.email === 'leandrodevxx@gmail.com'",
+            "$uid": {
+              ".read": "auth != null && auth.uid === $uid",
+              ".write": "auth != null && auth.token.email_verified === true && auth.token.email === 'leandrodevxx@gmail.com'",
+              ".validate": "newData.hasChildren(['role','updatedBy','updatedAt']) && (newData.child('role').val() === 'viewer' || newData.child('role').val() === 'writer') && newData.child('updatedBy').val() === auth.uid && newData.child('updatedAt').isString()"
+            }
+          },
+          "profiles": {
+            "$uid": {
+              ".read": "(auth != null && auth.token.email_verified === true && auth.token.email === 'leandrodevxx@gmail.com' || (auth != null && auth.uid === $uid))",
+              ".write": "auth != null && auth.uid === $uid && auth.token.email_verified === true",
+              ".validate": "newData.hasChildren(['email','displayName','lastLogin']) && newData.child('email').val() === auth.token.email && newData.child('displayName').isString() && newData.child('lastLogin').isString()"
             }
           }
         }
