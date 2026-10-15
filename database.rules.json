@@ -1,0 +1,111 @@
+{
+  "rules": {
+    ".read": false,
+    ".write": false,
+    "wmoldes": {
+      "v2": {
+        "public": {
+          "machines": {
+            ".read": true,
+            "$machine": {
+              ".write": "auth != null && (auth.token.admin === true || auth.token.writer === true) && $machine.matches(/^(A[1-6]|B[1-8]|C[1-8]|1[0-5])$/) && newData.exists()",
+              ".validate": "newData.hasChildren(['prefix', 'updatedBy', 'updatedAt']) && newData.child('updatedBy').val() === auth.uid && newData.child('prefix').isString() && newData.child('prefix').val().length <= 48 && newData.child('updatedAt').isString() && newData.child('updatedAt').val().length <= 40",
+              "machineNote": {
+                ".validate": "newData.isString() && newData.val().length <= 2000"
+              },
+              "specs": {
+                "$sid": {
+                  ".validate": "newData.hasChildren(['name','type','unit','lsl','lwl','target','uwl','usl']) && newData.child('name').isString() && newData.child('name').val().length <= 100 && (newData.child('type').val() === 'Molde' || newData.child('type').val() === 'Blank' || newData.child('type').val() === 'Neck') && newData.child('unit').isString() && newData.child('unit').val().length <= 15 && newData.child('lsl').isNumber() && newData.child('lwl').isNumber() && newData.child('target').isNumber() && newData.child('uwl').isNumber() && newData.child('usl').isNumber() && newData.child('lsl').val() <= newData.child('lwl').val() && newData.child('lwl').val() <= newData.child('target').val() && newData.child('target').val() <= newData.child('uwl').val() && newData.child('uwl').val() <= newData.child('usl').val()"
+                }
+              },
+              "$other": {
+                ".validate": "$other === 'prefix' || $other === 'updatedBy' || $other === 'updatedAt' || $other === 'machineNote' || $other === 'specs'"
+              }
+            }
+          },
+          "inspections": {
+            "$machine": {
+              "$day": {
+                "$id": {
+                  ".write": "auth != null && (auth.token.admin === true || auth.token.writer === true) && $machine.matches(/^(A[1-6]|B[1-8]|C[1-8]|1[0-5])$/) && $day.matches(/^\\d{4}-\\d{2}-\\d{2}$/) && (auth.token.admin === true || !data.exists() || data.child('createdBy').val() === auth.uid) && (!newData.exists() || (newData.child('createdBy').val() === (data.exists() ? data.child('createdBy').val() : auth.uid)))",
+                  ".validate": "newData.hasChildren(['machine','day','type','numberLot','prefix','inspectedAt','inspector','values','specsSnapshot','createdBy','createdAt','updatedBy','updatedAt']) && newData.child('machine').val() === $machine && newData.child('day').val() === $day && (newData.child('type').val() === 'Molde' || newData.child('type').val() === 'Blank' || newData.child('type').val() === 'Neck') && newData.child('numberLot').isString() && newData.child('numberLot').val().length <= 100 && newData.child('prefix').isString() && newData.child('prefix').val().length <= 48 && newData.child('inspector').isString() && newData.child('inspector').val().length <= 100 && newData.child('inspectedAt').isString() && newData.child('inspectedAt').val().beginsWith($day) && newData.child('createdAt').isString() && newData.child('updatedAt').isString() && newData.child('updatedBy').val() === auth.uid && (!data.exists() || (newData.child('createdAt').val() === data.child('createdAt').val() && newData.child('createdBy').val() === data.child('createdBy').val()))",
+                  "equipmentNote": {
+                    ".validate": "newData.isString() && newData.val().length <= 2000"
+                  },
+                  "values": {
+                    "$dim": {
+                      ".validate": "newData.isNumber()"
+                    }
+                  },
+                  "$other": {
+                    ".validate": "$other === 'machine' || $other === 'day' || $other === 'type' || $other === 'numberLot' || $other === 'prefix' || $other === 'inspectedAt' || $other === 'inspector' || $other === 'equipmentNote' || $other === 'values' || $other === 'specsSnapshot' || $other === 'createdBy' || $other === 'createdAt' || $other === 'updatedBy' || $other === 'updatedAt'"
+                  },
+                  "specsSnapshot": {
+                    "$dim": {
+                      ".validate": "newData.hasChildren(['name','type','unit','lsl','lwl','target','uwl','usl']) && newData.child('name').isString() && newData.child('unit').isString() && newData.child('lsl').isNumber() && newData.child('lwl').isNumber() && newData.child('target').isNumber() && newData.child('uwl').isNumber() && newData.child('usl').isNumber() && (!data.exists() || (newData.child('name').val() === data.child('name').val() && newData.child('type').val() === data.child('type').val() && newData.child('unit').val() === data.child('unit').val() && newData.child('lsl').val() === data.child('lsl').val() && newData.child('lwl').val() === data.child('lwl').val() && newData.child('target').val() === data.child('target').val() && newData.child('uwl').val() === data.child('uwl').val() && newData.child('usl').val() === data.child('usl').val()))"
+                    }
+                  }
+                },
+                ".read": "true"
+              }
+            }
+          },
+          "dimensionCatalog": {
+            ".read": true,
+            "$id": {
+              ".write": "auth != null && (auth.token.admin === true || auth.token.writer === true) && $id.matches(/^[A-Za-z0-9_-]{3,80}$/) && newData.exists()",
+              ".validate": "newData.hasChildren(['name','createdBy','createdAt']) && newData.child('name').isString() && newData.child('name').val().length >= 3 && newData.child('name').val().length <= 100 && newData.child('createdBy').val() === auth.uid && newData.child('createdAt').isString()"
+            }
+          },
+          "plans": {
+            ".read": true,
+            "$machine": {
+              "$prefix": {
+                ".write": "auth != null && (auth.token.admin === true || auth.token.writer === true) && $machine.matches(/^(A[1-6]|B[1-8]|C[1-8]|1[0-5])$/) && $prefix.matches(/^[A-Za-z0-9_-]{1,300}$/)",
+                ".validate": "newData.hasChildren(['prefix','specs','updatedBy','updatedAt']) && newData.child('prefix').isString() && newData.child('prefix').val().length <= 48 && newData.child('updatedBy').val() === auth.uid && newData.child('updatedAt').isString()",
+                "specs": {
+                  "$sid": {
+                    ".validate": "newData.hasChildren(['name','type','unit','lsl','lwl','target','uwl','usl']) && newData.child('name').isString() && newData.child('name').val().length <= 100 && (newData.child('type').val() === 'Molde' || newData.child('type').val() === 'Blank' || newData.child('type').val() === 'Neck') && newData.child('unit').isString() && newData.child('unit').val().length <= 15 && newData.child('lsl').isNumber() && newData.child('lwl').isNumber() && newData.child('target').isNumber() && newData.child('uwl').isNumber() && newData.child('usl').isNumber() && newData.child('lsl').val() <= newData.child('lwl').val() && newData.child('lwl').val() <= newData.child('target').val() && newData.child('target').val() <= newData.child('uwl').val() && newData.child('uwl').val() <= newData.child('usl').val()"
+                  }
+                }
+              }
+            }
+          },
+          "drawings": {
+            ".read": true,
+            "$prefix": {
+              ".write": "auth != null && (auth.token.admin === true || auth.token.writer === true) && $prefix.matches(/^[A-Za-z0-9_-]{1,300}$/)",
+              ".validate": "newData.hasChildren(['prefix','source','kind','fileName','updatedBy','updatedAt']) && newData.child('prefix').isString() && newData.child('prefix').val().length <= 48 && (newData.child('source').val() === 'url' || newData.child('source').val() === 'path' || newData.child('source').val() === 'storage') && (newData.child('kind').val() === 'pdf' || newData.child('kind').val() === 'image') && newData.child('fileName').isString() && newData.child('fileName').val().length <= 160 && newData.child('updatedBy').val() === auth.uid && newData.child('updatedAt').isString() && ((newData.child('source').val() === 'path' && newData.child('path').isString()) || (newData.child('source').val() !== 'path' && newData.child('url').isString()))",
+              "url": {
+                ".validate": "newData.isString() && newData.val().length <= 2048 && (newData.val().beginsWith('https://') || newData.val().beginsWith('http://'))"
+              },
+              "path": {
+                ".validate": "newData.isString() && newData.val().length <= 900"
+              },
+              "storagePath": {
+                ".validate": "newData.isString() && newData.val().length <= 500"
+              }
+            }
+          },
+          "prefixHistory": {
+            ".read": true,
+            "$machine": {
+              "$entry": {
+                ".write": "auth != null && (auth.token.admin === true || auth.token.writer === true) && $machine.matches(/^(A[1-6]|B[1-8]|C[1-8]|1[0-5])$/) && !data.exists() && newData.exists()",
+                ".validate": "newData.hasChildren(['prefix','previousPrefix','effectiveAt','changedBy']) && newData.child('prefix').isString() && newData.child('prefix').val().length <= 48 && newData.child('previousPrefix').isString() && newData.child('previousPrefix').val().length <= 48 && newData.child('effectiveAt').isString() && newData.child('changedBy').val() === auth.uid"
+              }
+            }
+          }
+        },
+        "private": {
+          "messages": {
+            "$uid": {
+              ".read": "auth != null && (auth.uid === $uid || auth.token.admin === true)",
+              ".write": false
+            }
+          }
+        }
+      }
+    }
+  }
+}
